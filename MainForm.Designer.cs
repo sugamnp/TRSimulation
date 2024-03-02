@@ -92,6 +92,8 @@
             gridDataGridView.Name = "gridDataGridView";
             gridDataGridView.ScrollBars = System.Windows.Forms.ScrollBars.None;
             gridDataGridView.Size = new System.Drawing.Size(125, 125);
+            gridDataGridView.GridColor = Color.OrangeRed;
+            gridDataGridView.DefaultCellStyle.Font = new Font("Arial", 6, FontStyle.Bold); 
             gridDataGridView.RowCount = 5; // 5x5 grid
             gridDataGridView.ColumnCount = 5;
 

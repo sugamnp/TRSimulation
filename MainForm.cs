@@ -1,4 +1,4 @@
-namespace TRSimulation
+﻿namespace TRSimulation
 {
     public partial class MainForm : Form
     {
@@ -7,6 +7,7 @@ namespace TRSimulation
         {
             InitializeComponent();
         }
+
         private void PlaceButton_Click(object sender, EventArgs e)
         {
             string input = placeInputTextBox.Text.Trim();
@@ -21,7 +22,7 @@ namespace TRSimulation
                 {
                     clearGrid();
                     robot.Place(a,b, direction);
-                    gridDataGridView.Rows[robot.x].Cells[robot.y].Style.BackColor = Color.Red;
+                    giveRobotFace();
                     messageLabel.Text = $"Toy robot placed at {robot.x},{robot.y},{direction}";
                 }
                 else
@@ -34,6 +35,7 @@ namespace TRSimulation
                 messageLabel.Text = "Invalid format: X,Y,DIRECTION";
             }
         }
+
         private void MoveButton_Click(object sender, EventArgs e)
         {
             if (!robot.placed)
@@ -44,7 +46,7 @@ namespace TRSimulation
             if (robot.Move())
             {
                 clearGrid();
-                gridDataGridView.Rows[robot.x].Cells[robot.y].Style.BackColor = Color.Red; 
+                giveRobotFace();
                 messageLabel.Text = $"Toy robot placed at {robot.x},{robot.y},{robot.direction}";
             }
             else
@@ -53,10 +55,12 @@ namespace TRSimulation
 
             }
         }
+
         private void ReportButton_Click(object sender, EventArgs e)
         {
            messageLabel.Text = $"Toy robot placed at {robot.x},{robot.y},{robot.direction}";
         }
+
         private void LeftButton_Click(object sender, EventArgs e)
         {
             if (!robot.placed)
@@ -65,7 +69,11 @@ namespace TRSimulation
                 return;
             }
             robot.Left();
+            clearGrid();
+            messageLabel.Text = $"Toy robot placed at {robot.x},{robot.y},{robot.direction}";
+            giveRobotFace();
         }
+
         private void RightButton_Click(object sender, EventArgs e)
         {
             if (!robot.placed)
@@ -74,19 +82,47 @@ namespace TRSimulation
                 return;
             }
             robot.Right();
+            clearGrid();
+            messageLabel.Text = $"Toy robot placed at {robot.x},{robot.y},{robot.direction}";
+            giveRobotFace();
+
         }
+
         private void ExitButton_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
+
         private void clearGrid()
         {
             foreach (DataGridViewRow row in gridDataGridView.Rows)
             {
                 foreach (DataGridViewCell cell in row.Cells)
                 {
-                    cell.Style.BackColor = Color.White; // Change to default color
+                    cell.Value = null; // Change to default color
                 }
+            }
+        }
+
+        private void giveRobotFace()
+        {
+            if (robot.direction == "EAST")
+            {
+                gridDataGridView.Rows[robot.x].Cells[robot.y].Value = "└[∴]┘";
+            }
+            else if (robot.direction == "WEST")
+            {
+                gridDataGridView.Rows[robot.x].Cells[robot.y].Value = "└[∵]┘";
+
+            }
+            else if (robot.direction == "NORTH")
+            {
+                gridDataGridView.Rows[robot.x].Cells[robot.y].Value = "[┐∵]┘";
+
+            }
+            else
+            {
+                gridDataGridView.Rows[robot.x].Cells[robot.y].Value = "└[∵┌]";
             }
         }
     }
